@@ -20,7 +20,6 @@ tmp/
 *.komodoedit
 *.komodoproject
 *.idea
-Gemfile.lock
 
 # bundler state
 /.bundle
