@@ -15,6 +15,7 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
                             stack.attr('id', csid);
 
                             $('.purpose', stack).html(cardStackAttributes.purpose);
+                            
                             stack.addClass(csid);
                             stack.attr('id', csid);
 

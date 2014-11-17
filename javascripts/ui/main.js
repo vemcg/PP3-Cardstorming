@@ -36,7 +36,7 @@ require.config({
     }
 });
 
-  require (["app"], // "jQueryUI", "jQuery"],
+  require (["app", "jqueryUI", "jquery"],
     function (app) { "use strict"
 
         $(document).ready(function () {
