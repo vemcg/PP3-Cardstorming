@@ -1,4 +1,4 @@
-define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery'],
+define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI'],
     function (dispatcher, uniqueId, logger) { "use strict"
         var CardView = (function () {
 

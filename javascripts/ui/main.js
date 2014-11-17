@@ -36,12 +36,18 @@ require.config({
     }
 });
 
-  require (["app", "jqueryUI", "jquery"],
-    function (app) { "use strict"
-
-        $(document).ready(function () {
-            app.init();
-        });
-
-  });
-
+require (["jquery"],
+    function () { "use strict"
+        require (["jqueryUI"],
+            function () { "use strict"
+                require (["app"],
+                    function (app) { "use strict"
+                        $(document).ready(function () {
+                            app.init();
+                        });
+                    }
+                );
+            }
+        );
+    }
+);

@@ -90,6 +90,8 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 projectBoard = $('#projectBoard');
 
                 function dropCard ( event, ui ) {
+                    //var card = event.srcElement.firstChild.parentElement.offsetParent;
+                    var card = $('.blankCard', event.srcElement);
                     debugger;
                 }
                        /*
@@ -135,7 +137,8 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 function init() {
                     logger.log("Made it to ProjectView init()");
                     // testEventDispatcher();
-                    runOldClickDemo();
+                    // runOldClickDemo();
+                    $('#projectView').droppable({drop: dropCard});
                 }
 
                 // Public Interface
