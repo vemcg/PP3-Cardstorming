@@ -11,3 +11,65 @@
  *= require_self
  *= require_tree .
  */
+
+
+html * {
+    font-size: 100%;
+}
+#banner {
+    height: 100px;
+    width: 100%;
+    background-color: #ddddff;
+}
+#projectView {
+    position: relative;
+    height: 800px;
+    width: 75%;
+    float: left;
+    background-color: #ffddff;
+}
+#projectBoard {
+    position: absolute;
+    height: 800px;
+    width: 75%;
+    float: left;
+    background-color: #ffddff;
+}
+#palette {
+    height: 800px;
+    width: 25%;
+    float: right;
+    background-color: #ff1111;
+}
+.hidden {
+    display: none !important;
+}
+.card {
+    position: absolute;
+    height: 6em;
+    width: 10em;
+    border: black 1px solid;
+}
+.yellowCard {
+    background-color: yellow;
+    border: black 1px solid;
+    opacity: 1;
+}
+.blankCard {
+    opacity: 0.1;
+}
+.cardStack {
+    margin: 10px;
+    height: 6em;
+    width: 10em;
+    border: black 3px solid;
+}
+.title {
+    width: 7em;
+    font-weight: bold;
+}
+.content {
+    width: 10em;
+    height: 5em;
+}
+
