@@ -97,7 +97,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     {drop: dropCard}
                 );
                            */
-                function runOldClickDemo() {
+/*                 function runOldClickDemo() {
                     var cardAttributes = {
                         purpose : 'Why This Card',
                         styling : 'yellowCard',
@@ -124,7 +124,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     }
 
                     projectView.on('click', dropDemoCard);
-                }
+                } */
 
                 function pause () {
 
@@ -135,7 +135,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 function init() {
                     logger.log("Made it to ProjectView init()");
                     // testEventDispatcher();
-                    runOldClickDemo();
+                    //runOldClickDemo();
                 }
 
                 // Public Interface
