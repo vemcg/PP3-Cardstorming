@@ -7,6 +7,20 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery'],
                 function createCard(cardAttributes) {
                     require(['text!templates/blankCard.html'],
                         function(html) {
+                        
+                        /*
+                          when click on a card stack, we know which card stack was clicked on
+                          in card attribute, make position be the same as the card stack:  x, y, z is the maximum value
+                              that puts that card on top of anything else in the view
+                          when we drag and drop inside the project view   
+                               we can compute the x and y from where we are in the project view (absolute positioning)
+                               of the project board under it is.  that allows us to set x and y
+                               
+                               thoughts for collaborative app:  need to solve problem of more than one personal
+                                   creating a card and trying to place it in the same location
+                                   (idea) call server:  z then is the highest the z yet seen -- 1+ the largest z on the projectBoard
+                          
+                        */
                             $(cardAttributes.target).append(html);
 
                             var cid = uniqueId.create('card-');

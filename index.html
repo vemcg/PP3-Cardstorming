@@ -3,62 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <title>CardStorming</title>
-    <style>
-        html * {
-            font-size: 100%;
-        }
-        #banner {
-            height: 100px;
-            width: 100%;
-            background-color: #ddddff;
-        }
-        #projectView {
-            position: relative;
-            height: 800px;
-            width: 75%;
-            float: left;
-            background-color: #ffddff;
-        }
-        #projectBoard {
-            position: absolute;
-        }
-        #palette {
-            height: 800px;
-            float: right;
-            background-color: #ffdddd;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .card {
-            position: absolute;
-            height: 6em;
-            width: 10em;
-            border: black 1px solid;
-        }
-        .yellowCard {
-            background-color: yellow;
-            border: black 1px solid;
-            opacity: 1;
-        }
-        .blankCard {
-            opacity: 0.1;
-        }
-        .cardStack {
-            margin: 10px;
-            height: 6em;
-            width: 10em;
-            border: black 3px solid;
-        }
-        .title {
-            width: 7em;
-            font-weight: bold;
-        }
-        .content {
-            width: 10em;
-            height: 5em;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles/application.css" />
+
     <script data-main="javascripts/ui/main" src="javascripts/libraries/require.js">
     </script>
 
@@ -74,7 +20,7 @@
                 </div>
             </div>
             <div id="palette">
-                blank palette
+                drag and drop one
             </div>
         </div>
 
