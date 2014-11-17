@@ -24,7 +24,9 @@ require.config({
         // "jQueryUI": "../libs/jQueryUI/jquery-ui-1.10.3.custom"
         jquery: '../libraries/jquery',
         jqueryUI: '../libraries/jquery-ui',
-        'text': '../libraries/text'
+        'text': '../libraries/text',
+        'pages': '../../pages',
+        'templates': '../../pages/templates'
     },
     shim: {
         jqueryUI: {
