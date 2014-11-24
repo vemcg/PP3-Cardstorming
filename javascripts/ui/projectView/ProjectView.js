@@ -90,11 +90,25 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 projectBoard = $('#projectBoard');
 
                 function dropCard ( event, ui ) {
-                    debugger;
+					var card = event.srcElement.parentElement;
+					var cardStack = card.parentElement;
+					if (cardStack.parentElement.id === "palette") {
+						card = $ (card).detach();
+						card.appendTo ($("#projectBoard"));
+						//card.moveBy (0, -100);
+						card.draggable();
+						card.removeClass ("blankCard");
+						var cardAttributes = {
+							purpose : cardStack.purpose,
+							styling : cardStack.id
+						};
+						dispatcher.fire('addCardToCardStack', cardAttributes);
+					}
                 }
                        /*
                 this.droppable(
                     {drop: dropCard}
+					
                 );
                            */
                 function runOldClickDemo() {
@@ -135,7 +149,8 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 function init() {
                     logger.log("Made it to ProjectView init()");
                     // testEventDispatcher();
-                    runOldClickDemo();
+                    //runOldClickDemo();
+					$('#projectView').droppable({drop: dropCard});
                 }
 
                 // Public Interface
