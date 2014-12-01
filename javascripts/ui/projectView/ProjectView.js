@@ -90,12 +90,27 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 projectBoard = $('#projectBoard');
 
                 function dropCard ( event, ui ) {
-					var card = event.srcElement.parentElement;
+					var card = event.target.parentElement;
 					var cardStack = card.parentElement;
 					if (cardStack.parentElement.id === "palette") {
+						var origLeft = card.style.left;
+						var origTop = card.style.top;
+						var topPx = parseInt(origTop);
+						if (topPx >= 107)
+							topPx -= 107;
+						else
+							topPx = 0;
+						var newTop = topPx + "px";
+						var leftPx = parseInt(origLeft);
+						if (leftPx > 7)
+							leftPx -= 7;
+						else
+							leftPx = 0;
+						var newLeft = leftPx + "px";
 						card = $ (card).detach();
 						card.appendTo ($("#projectBoard"));
-						//card.moveBy (0, -100);
+						card[0].style.left = newLeft;
+						card[0].style.top = newTop;
 						card.draggable();
 						card.removeClass ("blankCard");
 						var cardAttributes = {
