@@ -96,14 +96,16 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 						var origLeft = card.style.left;
 						var origTop = card.style.top;
 						var topPx = parseInt(origTop);
-						if (topPx >= 107)
-							topPx -= 107;
+						var leftOffset = parseInt(projectView[0].offsetLeft);
+						var topOffset = parseInt(projectView[0].offsetTop);
+						if (topPx >= topOffset)
+							topPx -= topOffset;
 						else
 							topPx = 0;
 						var newTop = topPx + "px";
 						var leftPx = parseInt(origLeft);
-						if (leftPx > 7)
-							leftPx -= 7;
+						if (leftPx >= leftOffset)
+							leftPx -= leftOffset;
 						else
 							leftPx = 0;
 						var newLeft = leftPx + "px";
@@ -113,6 +115,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 						card[0].style.top = newTop;
 						card.draggable();
 						card.removeClass ("blankCard");
+						dispatcher.fire('addCardToProjectBoard', card);
 						var cardAttributes = {
 							purpose : cardStack.purpose,
 							styling : cardStack.id
