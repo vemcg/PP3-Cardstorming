@@ -21,27 +21,35 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                                    (idea) call server:  z then is the highest the z yet seen -- 1+ the largest z on the projectBoard
                           
                         */
+
+
                             $(cardAttributes.target).append(html);
 
                             var cid = uniqueId.create('card-');
                             var card = $('#TBD');
                             $('#TBD').attr('id', cid);
                             card = $('#' + cid);
+                            dispatcher.on('dblclick', idAndEditCard);
 
                             if ('#projectBoard' == cardAttributes.target) {
+                                debugger; // ever getting called.
                                 card.css('top', '' + cardAttributes.y + 'em');
                                 card.css('left', '' + cardAttributes.x + 'em');
                                 card.css('z-index', cardAttributes.z);
                                 card.removeClass('blankCard');
+                            } else {
+                                card.css('position', 'relative');
+                                card.css('left', '0px');
+                                card.css('top', '0px');
+                                card.css('z-index', 1);
                             }
 
                             // $('.creator', cid).html(cardAttributes.creator);
                             $('.title', card).html(cid); // later cardAttributes.title);
                             $('.content', card).html(cardAttributes.content);
 
-
-                            card.addClass(cardAttributes.styling);
                             card.removeClass('hidden');
+                            card.addClass(cardAttributes.styling);
                             card.draggable();
 
                             // card.draggable();
@@ -67,8 +75,17 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                     $('.card').draggable();
                 }
 */
+                function editCard(cardId) {
+                    debugger;
+                }
+                function idAndEditCard(event) {
+                    var cardId = event.target.firstChild.parentElement.offsetParent.id;
+                    editCard(cardId);
+                }
+
                 function init() {
                     dispatcher.on('getNewCard', createCard);
+                    dispatcher.on('editCard', editCard);
                 }
 
                 init();

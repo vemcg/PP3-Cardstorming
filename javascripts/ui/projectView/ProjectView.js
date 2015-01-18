@@ -2,6 +2,8 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
     function (dispatcher, logger) { "use strict"
         var ProjectView = (function () { // Start of Constructor
 
+            var lastZIndex = 20;
+
             function ProjectView () {
 
                 function testEventDispatcher() {
@@ -89,16 +91,52 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 projectView = $('#projectView');
                 projectBoard = $('#projectBoard');
 
-                function dropCard ( event, ui ) {
-                    //var card = event.srcElement.firstChild.parentElement.offsetParent;
-                    var card = $('.blankCard', event.srcElement);
-                    debugger;
+                function addCardToProject(event, cardId, card, cardAttributes) {
+                    // card.top = card.css('top');
+                    // card.left = card.css('left');
+                    card.appendTo(projectBoard);
+                    card.css('top', cardAttributes.absPx.top);
+                    card.css('left', cardAttributes.absPx.left);
+                    // Fix x, y, and z here including translating pixels and offsets into em top and left
                 }
-                       /*
-                this.droppable(
-                    {drop: dropCard}
-                );
-                           */
+
+                   function onDblClick(event) {
+                       var cardElement = event.target.offsetParent;
+                       var id = cardElement.id;
+                       var titleElement =  $('div.title', cardElement);
+                       var contentElement = $('div.content', cardElement);
+                       var titleText = titleElement[0].textContent;
+                       var contentText =  contentElement[0].textContent;
+                       debugger;
+                   }
+
+                function dropCard ( event, ui ) {
+                    var cardId = event.target.firstChild.parentElement.offsetParent.id;
+                    // var card = $('.card.blankCard', event.srcElement);
+                    var card = $('#palette #' + cardId);
+                    var cardAttributes = {};
+                    cardAttributes.absPx = {
+                        top: ui.absolutePosition.top,
+                        left: ui.absolutePosition.left
+                    }
+                    card.css('z-index', cardAttributes.z);
+
+                    if (0 < card.length) {
+                        // Card is from the palette and it needs to be removed, replaced, and edited.
+                        dispatcher.fire('replaceCard', cardId);
+                        addCardToProject(event, cardId, card, cardAttributes);
+                        card.on('dblclick', onDblClick)
+                        // // dispatcher.fire('replaceCard', cardId);
+                    } else {
+                        // Card is in the project.
+                        // Reset z and push dirty card through controller to service to server.
+                    }
+
+
+                }
+                function demoZoom() {
+                    var size =  $('#projectBoard').css('font')
+                }
                 function runOldClickDemo() {
                     var cardAttributes = {
                         purpose : 'Why This Card',

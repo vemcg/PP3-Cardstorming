@@ -16,20 +16,26 @@
 html * {
     font-size: 100%;
 }
+body {
+    margin: 0px;
+}
 #banner {
-    height: 100px;
+    height: 50px;
     width: 100%;
+    x-index: 0;
     background-color: #ddddff;
 }
 #projectView {
     position: relative;
+    z-index: 0;
     height: 800px;
     width: 75%;
     float: left;
-    background-color: #ffddff;
+    opacity: 0.5;
 }
 #projectBoard {
     position: absolute;
+    z-index: -1;
     height: 800px;
     width: 75%;
     float: left;
@@ -38,6 +44,7 @@ html * {
 #palette {
     height: 800px;
     width: 25%;
+    z-index: 0;
     float: right;
     background-color: #dddddd;
 }
@@ -70,9 +77,13 @@ html * {
 
 
 .blankCard {
+    position: absolute;
     opacity: 0.1;
+    top: 0px;
+    left: 0px;
 }
 .cardStack {
+    position: relative;
     margin: 10px;
     height: 6em;
     width: 10em;
