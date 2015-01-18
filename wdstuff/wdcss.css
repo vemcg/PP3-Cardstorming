@@ -1,0 +1,106 @@
+// mycss.css
+
+
+.background {
+	/*gradiant color*/
+}
+
+/* header and nav bar
+o	darker than background
+o	same color as footer
+
+•	footer and copyright info
+o	same color as header/nav bar
+*/ 
+
+
+body {
+	font-family: Arial, Verdana;
+}
+
+div {
+  width: 420px;
+  padding: 10px;
+  
+  margin: 10px;
+}
+
+form {
+	/*rounded corner border around
+o	required items get red or orange star and internal background color
+o	labels are bold
+o	for web, two columns
+o	for mobile, one column; ordering 
+o	inside textfield labels, indication of what to enter*/
+  background-color: lightgreen;
+  border: 5px solid green;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  margin: 0px;
+}
+
+
+.button {
+  /*rounded
+o	border (clearer that is a button)
+o	change appearance when clicked to show that clicked */
+  background-color: lightblue;
+  width: 100px;
+  padding: 10px;
+  border: 4px blue;
+  border-style: inset; 
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  margin: 10px;
+  font-weight: bold;
+}
+
+
+  /* when return with new login, use same color, rather than default show that clicked */
+   
+  a:link {color:#FF0000;}    /* unvisited link */
+  a:visited {color:#FFFFFF;} /* visited link */
+  a:hover {color:#FF00FF;}   /* mouse over link */
+  a:active {color:#0000FF;}  /* selected link */
+  /* and underlining */
+
+
+ul.inline {
+  list-style-type:none;
+  margin:20px;
+  padding:0;
+}
+
+ul.inline > li {
+  display: inline;
+}
+
+p {
+  
+}
+
+.error {
+
+}
+
+.confirmation {
+
+}
+
+h1 {
+
+}
+
+h2 {
+
+}
+
+code {
+  font-family: monospace;
+}
+
+
+
+
+
+

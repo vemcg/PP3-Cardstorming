@@ -4,20 +4,24 @@
     <meta charset="utf-8"/>
     <title>Edit Card</title>
 	<link rel="stylesheet" href="wdcss.css">
-    <script src="wdjs.js"></script>
-    </script>
+    
+
+    <script src="jquery.js"></script>
+    <script src="jquery-ui.js"></script>  
+    <script src="wdforms.js"></script>    
+    
 
 </head>
     <body height="400px" width="400px">
     <div id="editMe" >
         <form>
             <div>
-            <label for="title" class="label">Title: </label>
-            <input type="text" class="title" name="editTitle" value="Title Me This"><br>
+            <label for="editTitle" class="label">Title: </label>
+            <input type="text" class="title" id="editTitle" value="Title Me This"><br>
             </div>
             <div>
             <label for="content" class="label">Content: </label>
-            <input type="textarea" class="content" name="content" value="Hello, world!"><br>
+            <input type="textarea" class="content" id="content" value="Hello, world!"><br>
             </div>
             <div>
             <button type="button" class="button" id="okButton">OK</button>

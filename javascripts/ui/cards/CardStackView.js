@@ -25,9 +25,24 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
                         }
                     );
                 }
+                
+
+                function addCard(cardStackAttributes) {
+                    require(['text!templates/cardStack.html'],
+                        function(html) {
+                            var csid = cardStackAttributes.styling;
+                            cardStackAttributes.target = "#" + csid;
+                            
+                            // TODO: Put a card in it
+                            // TODO: Later, take the card from the event rather than directly
+                            dispatcher.fire('getNewCard', cardStackAttributes);
+                        }
+                    );
+                }
 
                 function init() {
                     dispatcher.on('getNewCardStack', createCardStack);
+                    dispatcher.on('addCardToCardStack', addCard);
                 }
 
                 init();

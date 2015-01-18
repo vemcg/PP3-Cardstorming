@@ -4,7 +4,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 
             function ProjectView () {
 
-                function testEventDispatcher() {
+/*                 function testEventDispatcher() {
                     var infoIn = {str : 'infoIn string'};
                     function t1 (info) {
                         logger.log('T1: info.str = ' + info.str);
@@ -19,7 +19,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     dispatcher.on('test', t1);
 
                     dispatcher.fire ('test', infoIn);
-                }
+                } */
 
                 var cardstock;
                 var projectView;
@@ -90,8 +90,36 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 projectBoard = $('#projectBoard');
 
                 function dropCard ( event, ui ) {
-                    debugger;
+                    var card = event.srcElement.parentElement;
+                    var cardStack = card.parentElement;
+                    if (cardStack.parentElement.id === "palette") {
+                        logger.log(card);
+                        card = $(card).detach();
+                        $("#projectBoard").append(card);
+                        card.draggable();
+                        //logger.log(card);
+                        card.removeClass("blankCard");
+                        //var cardID = card.id;
+ 
+                        logger.log(card)
+
+                        
+                        var cardAttributes = {
+                            purpose: cardStack.purpose,
+                            styling:  cardStack.id
+                        };
+                        dispatcher.fire('addCardToCardStack', cardAttributes);
+                        
+                    };
+                    
                 }
+                
+
+                function editCard( event, ui ) {
+                    var card = event.srcElement.parentElement;
+                    logger.log(card.cardID);
+                }
+                
                        /*
                 this.droppable(
                     {drop: dropCard}
@@ -130,12 +158,12 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 
                 }
                 function resume () {
-
+                    $('.card').on('dblclick', editCard);
                 }
                 function init() {
-                    logger.log("Made it to ProjectView init()");
-                    // testEventDispatcher();
-                    //runOldClickDemo();
+                    
+                    $('#projectView').droppable({drop: dropCard});
+
                 }
 
                 // Public Interface
