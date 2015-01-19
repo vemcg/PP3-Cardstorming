@@ -20,19 +20,25 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     dispatcher.fire ('test', infoIn);
                 }
 
-                var cardstock;
-                var projectView;
-                var projectBoard;
-
-                var fontsize = 100;
-
-                projectView = $('#projectView');
-				projectBoard = $('projectBoard');
-
+				var highestZIndex = 0;
+				
                 function addCardToProjectBoard (card) {
 					logger.log("Made it to ProjectBoard addCardToProjectBoard()");
-					// Translate card visible location in pixels to card coordinates on ProjectBoard in ems?
+					setCardLocation(card[0], true);
                 }
+				
+				function movedCardToProjectBoard  (cardRef) {
+					logger.log("Made it to ProjectBoard movedCardToProjectBoard()");
+					setCardLocation(cardRef, false);
+				}
+				
+				function setCardLocation (cardRef, dropped) {
+					// First put card on top
+					if (dropped || (cardRef.style.zIndex < highestZIndex))
+						cardRef.style.zIndex = ++highestZIndex;
+						
+					// Then translate card visible location in pixels to card coordinates on ProjectBoard in ems?
+				}
 
                 function pause () {
 
@@ -43,6 +49,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 function init() {
                     logger.log("Made it to ProjectBoard init()");
                     dispatcher.on('addCardToProjectBoard', addCardToProjectBoard);
+					dispatcher.on('movedCardToProjectBoard', movedCardToProjectBoard);
                 }
 
                 // Public Interface
