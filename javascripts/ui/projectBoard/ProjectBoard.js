@@ -27,9 +27,14 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 					setCardLocation(card[0], true);
                 }
 				
-				function movedCardToProjectBoard  (cardRef) {
-					logger.log("Made it to ProjectBoard movedCardToProjectBoard()");
+				function movedCardOnProjectBoard  (cardRef) {
+					logger.log("Made it to ProjectBoard movedCardOnProjectBoard()");
 					setCardLocation(cardRef, false);
+				}
+
+				function mouseDownOnCardOnProjectBoard (cardRef) {
+					logger.log("Made it to ProjectBoard mouseDownOnCardOnProjectBoard()");
+					cardRef.style.zIndex = ++highestZIndex;
 				}
 				
 				function setCardLocation (cardRef, dropped) {
@@ -49,7 +54,8 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 function init() {
                     logger.log("Made it to ProjectBoard init()");
                     dispatcher.on('addCardToProjectBoard', addCardToProjectBoard);
-					dispatcher.on('movedCardToProjectBoard', movedCardToProjectBoard);
+					dispatcher.on('movedCardOnProjectBoard', movedCardOnProjectBoard);
+					dispatcher.on('mouseDownOnCardOnProjectBoard', mouseDownOnCardOnProjectBoard);
                 }
 
                 // Public Interface
