@@ -36,8 +36,8 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery'],
                             }
 
                             // $('.creator', cid).html(cardAttributes.creator);
-                            $('.title', card).html(cid); // later cardAttributes.title);
-                            $('.content', card).html(cardAttributes.content);
+                            $('.title', card).text(cid); // later cardAttributes.title);
+                            $('.content', card).text(cardAttributes.content);
 
 
                             card.addClass(cardAttributes.styling);
