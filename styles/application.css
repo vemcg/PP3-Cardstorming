@@ -79,8 +79,9 @@ html * {
     border: black 3px solid;
 }
 .title {
-    width: 7em;
+    width: 100%;
     font-weight: bold;
+	text-align: left;
 }
 .content {
     width: 10em;
