@@ -2,8 +2,6 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
     function (Card, dispatcher, getUniqueId, logger) { "use strict"
         var CardStackView = (function () {
 
-
-
             function CardStackView () {
 
                 function createCardStack(cardStackAttributes) {
@@ -21,13 +19,26 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
                             
                             stack.addClass(csid);
                             stack.attr('id', csid);
+							
+                            // TODO: Put a card in it
+                            // TODO: Later, take the card from the event rather than directly
+                            dispatcher.fire('getNewCard', cardStackAttributes);
+                        }
+                    );
+                }
+
+                function addCard(cardStackAttributes) {
+                    require(['text!templates/cardStack.html'],
+                        function(html) {
+                            var csid = cardStackAttributes.styling;
+                            cardStackAttributes.target = "#" + csid;
 
                             // TODO: Put a card in it
                             // TODO: Later, take the card from the event rather than directly
                             // debugger;
                             dispatcher.fire('getNewCard', cardStackAttributes);
 
-                            stack.text(cardStackAttributes.purpose);
+                            // stack.text(cardStackAttributes.purpose);
                         }
                     );
                 }
@@ -52,7 +63,7 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
 
                 function init() {
                     dispatcher.on('getNewCardStack', createCardStack);
-                    dispatcher.on('replaceCard', replaceCard);
+					dispatcher.on('addCardToCardStack', addCard);
                 }
 
                 init();

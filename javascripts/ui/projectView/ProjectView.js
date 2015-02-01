@@ -28,66 +28,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 var projectBoard;
 
                 var fontsize = 100;
-/*
-                var xoff = 0;
-                var yoff = 0;
-                var zidx = 0;
 
-                function addCard() {
-                    require(['text!templates/blankCard.html'],
-                        function(card) {
-                            yoff = yoff + 2;
-                            xoff = xoff + 3;
-                            zidx = zidx + 1;
-                            var cid = 'card' + zidx;
-
-                            fontsize = 0.90 * fontsize;
-                            board.css('font-size', fontsize + '%');
-
-                            board.append(card);
-                            $('#TBD').addClass('yellowCard');
-                            $('#TBD').removeClass('blankCard');
-                            $('#TBD').removeClass('hidden');
-                            $('#TBD').attr('id', cid);
-                            cid = '#' + cid;
-
-                            // TODO: Put the card where it was dropped
-                            board.css('top', yoff + 'px');
-                            board.css('left', -xoff + 'px');
-
-                            $(cid).css('top', '' + yoff + 'em');
-                            $(cid).css('left', '' + xoff + 'em');
-                            $(cid).css('z-index', zidx);
-                        }
-                    );
-                }
-
-                function addCardXXX() {       // do this differently on card drop
-                    // TODO: Take the card from the event rather than creating it
-                    var card = cardstock.html();
-                    yoff = yoff + 2;
-                    xoff = xoff + 3;
-                    zidx = zidx + 1;
-                    var cid = 'card' + zidx;
-
-                    fontsize = 0.90 * fontsize;
-                    board.css('font-size', fontsize + '%');
-
-                    board.append(card);
-                    $('#TBD').attr('id', cid);
-                    cid = '#' + cid;
-
-                    // TODO: Put the card where it was dropped
-                    board.css('top', yoff + 'px');
-                    board.css('left', -xoff + 'px');
-
-                    $(cid).css('top', '' + yoff + 'em');
-                    $(cid).css('left', '' + xoff + 'em');
-                    $(cid).css('z-index', zidx);
-                }
-
-                cardstock = $('#cardAsset');
-*/
                 projectView = $('#projectView');
                 projectBoard = $('#projectBoard');
 
@@ -106,34 +47,71 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     var id = cardElement.id;
                     dispatcher.fire('editCard', id);
                 }
+                /*
+                 function demoZoom() {
+                 var size =  $('#projectBoard').css('font')
+                 }
+                 */
 
                 function dropCard ( event, ui ) {
-                    var cardId = event.target.firstChild.parentElement.offsetParent.id;
+                    // Decide which is the best method for selecting the card.
+                    // var cardId = event.target.firstChild.parentElement.offsetParent.id;
                     // var card = $('.card.blankCard', event.srcElement);
-                    var card = $('#palette #' + cardId);
-                    var cardAttributes = {};
-                    cardAttributes.absPx = {
-                        top: ui.absolutePosition.top,
-                        left: ui.absolutePosition.left
-                    }
-                    card.css('z-index', cardAttributes.z);
+                    // var card = $('#palette #' + cardId);
 
-                    if (0 < card.length) {
-                        // Card is from the palette and it needs to be removed, replaced, and edited.
-                        dispatcher.fire('replaceCard', cardId);
-                        addCardToProject(event, cardId, card, cardAttributes);
-                        card.on('dblclick', onDblClick)
-                        // // dispatcher.fire('replaceCard', cardId);
-                    } else {
-                        // Card is in the project.
-                        // Reset z and push dirty card through controller to service to server.
-                    }
-
-
+					var card = event.target.parentNode;
+					var cardStack = card.parentNode;
+					if (cardStack.parentNode.id === "palette") {
+						// A new card from the Card Stack has been dropped in the ProjectView
+						// Get the location of the card and the offsets for the ProjectView
+						// Note: No index needed for card reference since get reference from event.
+						var origLeft = card.style.left;
+						var origTop = card.style.top;
+						var leftOffset = parseInt(projectView[0].offsetLeft);
+						var topOffset = parseInt(projectView[0].offsetTop);
+						
+						// Calculate Card top coordinate once dropped on Project Board
+						var topPx = parseInt(origTop);
+						if (topPx >= topOffset)
+							topPx -= topOffset;
+						else
+							topPx = 0;
+						var newTop = topPx + "px";
+						
+						// Calculate Card left coordinate once dropped on Project Board
+						var leftPx = parseInt(origLeft);
+						if (leftPx >= leftOffset)
+							leftPx -= leftOffset;
+						else
+							leftPx = 0;
+						var newLeft = leftPx + "px";
+						
+						// Move the Card from the Card Stack to the Project Board
+						card = $ (card).detach();
+						card.appendTo ($("#projectBoard"));
+						//   Adjust the coordinates of the Card to be relative to the ProjectBoard.
+						card[0].style.left = newLeft;
+						card[0].style.top = newTop;
+						//   Make the card draggable, no longer a blank card, and notify Project Board.
+						card.draggable();
+						card.removeClass ("blankCard");
+						dispatcher.fire('addCardToProjectBoard', card);
+						dispatcher.fire('editCard', card[0].id); // cardId);
+                        card.on('dblclick', onDblClick);
+						
+						// Add a new blank card to the origin Card Stack
+						var cardAttributes = {
+							purpose : cardStack.purpose,
+							styling : cardStack.id
+						};
+						dispatcher.fire('addCardToCardStack', cardAttributes);
+					} else {
+						// A card has been moved.
+						// Notify the Project Board.
+						dispatcher.fire('movedCardToProjectBoard', card);
+					}
                 }
-                function demoZoom() {
-                    var size =  $('#projectBoard').css('font')
-                }
+
                 function runOldClickDemo() {
                     var cardAttributes = {
                         purpose : 'Why This Card',
@@ -172,8 +150,8 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 function init() {
                     logger.log("Made it to ProjectView init()");
                     // testEventDispatcher();
-                    // runOldClickDemo();
-                    $('#projectView').droppable({drop: dropCard});
+                    //runOldClickDemo();
+					$('#projectView').droppable({drop: dropCard});
                 }
 
                 // Public Interface
