@@ -4,6 +4,8 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
 
             function CardView () {
 
+                var projectBoard;
+
                 function createCard(cardAttributes) {
                     require(['text!templates/blankCard.html'],
                         function(html) {
@@ -75,8 +77,84 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                     $('.card').draggable();
                 }
 */
+                /*
+                 $(document).ready(function(){
+
+                 var currentTitle = $("#editTitle").val();
+                 var currentContent = $("#content").val();
+
+                 $("#okButton").click(function(){
+
+                 currentTitle = $("#editTitle").val();
+                 currentContent = $("#content").val();
+                 });
+
+                 $("#cancelButton").click(function(){
+
+
+                 $("#editTitle").val(currentTitle);
+                 $("#content").val(currentContent);
+                 });
+
+                 });
+
+                 */
+
+                projectBoard = $('#projectBoard');
+
+                function zoomOut() {
+                    $( "#projectBoard" ).animate({
+                        "font-size": "2px"
+                    }, 500, function() {
+                        // Animation complete.
+                    });
+                }
+                function zoomIn() {
+                    $( "#projectBoard" ).animate({
+                        "font-size": "12px"
+                    }, 500, function() {
+                        // Animation complete.
+                    });
+                }
+                function zoomDemo() {
+                    setTimeout(zoomIn, 2000);
+                    zoomOut();
+                }
+
                 function editCard(cardId) {
-                    debugger;
+                    function editCardImpl(html) {
+                        function removeEditForm() {
+                            $('#editCardForm').detach();
+                        }
+                        function onOk() {
+                            debugger;
+                            // removeEditForm();
+                        }
+                        function onCancel() {
+                            debugger;
+                            removeEditForm();
+                            zoomDemo();
+                        }
+                        // Gather all the pieces
+                        var cardElement = $('#'+cardId)[0];
+                        var id = cardElement.id;
+                        var titleElement =  $('div.title', cardElement);
+                        var contentElement = $('div.content', cardElement);
+                        var titleText = titleElement[0].textContent;
+                        var contentText =  contentElement.val();
+                        // Present the edit form
+                        projectBoard.append(html);
+                        var form = $('#editCardForm');
+                        form.css('top', cardElement.offsetTop);
+                        form.css('left', cardElement.offsetLeft);
+                        form.css('z-index', 1000000);
+                        $("#editCardForm #editTitle").val(titleText);
+                        $("#editCardForm #editContent").val(contentText);
+                        $('#editCardForm #okButton').on('click', onOk);
+                        $('#editCardForm #cancelButton').on('click', onCancel);
+                        debugger;
+                    }
+                    require(['text!templates/editCardForm.html'], editCardImpl);
                 }
                 function idAndEditCard(event) {
                     var cardId = event.target.firstChild.parentElement.offsetParent.id;
@@ -86,6 +164,8 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                 function init() {
                     dispatcher.on('getNewCard', createCard);
                     dispatcher.on('editCard', editCard);
+                    // Just for purposes of demonstrating zoom
+                    dispatcher.on('replaceCard', zoomDemo);
                 }
 
                 init();

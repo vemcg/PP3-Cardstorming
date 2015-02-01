@@ -97,18 +97,15 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     card.appendTo(projectBoard);
                     card.css('top', cardAttributes.absPx.top);
                     card.css('left', cardAttributes.absPx.left);
+                    dispatcher.fire('editCard', cardId);
                     // Fix x, y, and z here including translating pixels and offsets into em top and left
                 }
 
-                   function onDblClick(event) {
-                       var cardElement = event.target.offsetParent;
-                       var id = cardElement.id;
-                       var titleElement =  $('div.title', cardElement);
-                       var contentElement = $('div.content', cardElement);
-                       var titleText = titleElement[0].textContent;
-                       var contentText =  contentElement[0].textContent;
-                       debugger;
-                   }
+                function onDblClick(event) {
+                    var cardElement = event.target.offsetParent;
+                    var id = cardElement.id;
+                    dispatcher.fire('editCard', id);
+                }
 
                 function dropCard ( event, ui ) {
                     var cardId = event.target.firstChild.parentElement.offsetParent.id;

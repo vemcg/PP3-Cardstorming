@@ -43,7 +43,6 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
                 }
                 function replaceCard(cardId) {
                     var card = $('#palette #' + cardId);
-                    debugger;
                     card.removeClass('blankCard');
                     var cardStackAttributes = {};
                     cardStackAttributes.styling = extractStylingClass(card[0].classList);

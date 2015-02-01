@@ -74,7 +74,15 @@ body {
     border: black 1px solid;
     opacity: 1;
 }
-
+#editCardForm {
+    position: relative;
+    width: 10em;
+    border: black 5px solid;
+}
+.buttonRowRight {
+    float: right;
+    display: inline-block;
+}
 
 .blankCard {
     position: absolute;
