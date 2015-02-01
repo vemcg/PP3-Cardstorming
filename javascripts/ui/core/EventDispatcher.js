@@ -44,15 +44,23 @@ define(['core/Log'],
                 }
 
                 function fire(eventName, eventInfo) {
-                    var i, n, list;
+                    var i, n, list, json;
 
                     if (registeredEvents.hasOwnProperty(eventName)) {
                         list = registeredEvents[eventName];
                         n = list.length;
 
                         if (0 < n) {
-                            log(1, 'EVENTS: Firing ' + eventName + ' (' + n + ' callbacks)');
+			    try {
+			    	json = JSON.stringify(eventInfo);
+			    }
+			    catch (e) {
+			        json = e.message;
+			    }
+                            log(1, 'EVENTS: Firing ' + eventName + ' (' + json + ' ) - ' + n + ' callbacks');
                         }
+
+                        if ('addxCardToProjectBoard' === eventName) debugger;
 
                         for (i = 0; i < n; i++) {
                             list[i](eventInfo);   // Call callbacks
