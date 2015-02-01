@@ -37,19 +37,17 @@ require.config({
 });
 
 require (["jquery"],
-	function () {"use-strict"
-		require (["jqueryUI"],
-			function () {"use-strict"
-				require (["app"],
-					function (app) { "use strict"
-						$(document).ready(function () {
-							app.init();
-						});
-					}
-				);
-			}
-		);
-	}
+    function () { "use strict"
+        require (["jqueryUI"],
+            function () { "use strict"
+                require (["app"],
+                    function (app) { "use strict"
+                        $(document).ready(function () {
+                            app.init();
+                        });
+                    }
+                );
+            }
+        );
+    }
 );
-
-
