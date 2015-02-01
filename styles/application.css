@@ -78,12 +78,26 @@ html * {
     width: 10em;
     border: black 3px solid;
 }
-.title {
-    width: 7em;
-    font-weight: bold;
+.card .titleBlock {
+	display: table;
+	width: 100%;
 }
-.content {
+.card .title {
+	display: table-cell;
+    width: auto;
+    font-weight: bold;
+	text-align: left;
+	vertical-align: center;
+}
+.card .reserved1 {
+	display: table-cell;
+	float: right;
+	width: 90%;
+	font-weight: bold;
+	text-align: right;
+	vertical-align: center;
+}
+.card .content {
     width: 10em;
     height: 5em;
 }
-
