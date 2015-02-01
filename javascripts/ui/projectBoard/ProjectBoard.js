@@ -34,8 +34,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 
 				function mouseDownOnCardOnProjectBoard (cardRef) {
 					logger.log("Made it to ProjectBoard mouseDownOnCardOnProjectBoard()");
-					if (cardRef.style.zIndex < highestZIndex)
-						cardRef.style.zIndex = ++highestZIndex;
+					cardRef.style.zIndex = ++highestZIndex;
 				}
 				
 				function setCardLocation (cardRef, dropped) {

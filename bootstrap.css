@@ -2371,25 +2371,7 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 }
-.popover .titleBlock {
-  background-color: #f5f5f5;
-  padding: 0px 0px;
-  line-height: 1;
-  -webkit-border-radius: 0 0 0 0;
-  -moz-border-radius: 0 0 0 0;
-  border-radius: 0 0 0 0;
-  border-bottom: 0;
-}
 .popover .title {
-  background-color: #f5f5f5;
-  padding: 9px 15px;
-  line-height: 1;
-  -webkit-border-radius: 3px 3px 0 0;
-  -moz-border-radius: 3px 3px 0 0;
-  border-radius: 3px 3px 0 0;
-  border-bottom: 1px solid #eee;
-}
-.popover .reserved1 {
   background-color: #f5f5f5;
   padding: 9px 15px;
   line-height: 1;
