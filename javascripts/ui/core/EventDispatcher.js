@@ -60,7 +60,7 @@ define(['core/Log'],
                             log(1, 'EVENTS: Firing ' + eventName + ' (' + json + ' ) - ' + n + ' callbacks');
                         }
 
-                        if ('addxCardToProjectBoard' === eventName) debugger;
+                        if ('addCardToProjectBoard' === eventName) debugger;
 
                         for (i = 0; i < n; i++) {
                             list[i](eventInfo);   // Call callbacks

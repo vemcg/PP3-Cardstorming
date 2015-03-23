@@ -96,6 +96,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 						//   Make the card draggable, no longer a blank card, and notify Project Board.
 						card.draggable();
 						card.removeClass ("blankCard");
+                        debugger;
 						dispatcher.fire('addCardToProjectBoard', card);
 						dispatcher.fire('editCard', card[0].id); // cardId);
                         card.on('dblclick', onDblClick);
