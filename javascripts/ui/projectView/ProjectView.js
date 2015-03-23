@@ -88,7 +88,17 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 */
                 projectView = $('#projectView');
                 projectBoard = $('#projectBoard');
+				projectBoard.draggable();
 
+				function dropEvent (event, ui) {
+					var target_id = event.target.id;
+					
+					if (target_id === projectBoard[0].id)
+					    logger.log('ProjectBoard dragged');
+					else
+						dropCard (event, ui);
+				}
+			
                 function dropCard ( event, ui ) {
 					var card = event.target.parentNode;
 					var cardStack = card.parentNode;
@@ -137,7 +147,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 					} else {
 						// A card has been moved.
 						// Notify the Project Board.
-						dispatcher.fire('movedCardToProjectBoard', card);
+						dispatcher.fire('movedCardOnProjectBoard', card);
 					}
                 }
                        /*
@@ -185,7 +195,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     logger.log("Made it to ProjectView init()");
                     // testEventDispatcher();
                     //runOldClickDemo();
-					$('#projectView').droppable({drop: dropCard});
+					$('#projectView').droppable({drop: dropEvent});
                 }
 
                 // Public Interface
