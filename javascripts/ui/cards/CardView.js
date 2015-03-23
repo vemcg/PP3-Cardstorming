@@ -1,4 +1,4 @@
-define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery'],
+define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI'],
     function (dispatcher, uniqueId, logger) { "use strict"
         var CardView = (function () {
 
@@ -37,15 +37,16 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery'],
                             }
 
                             // $('.creator', cid).html(cardAttributes.creator);
-                            $('.title', card).html(cid); // later cardAttributes.title);
-                            $('.content', card).html(cardAttributes.content);
+                            $('.title', card).text(cid); // later cardAttributes.title);
+                            $('.content', card).text(cardAttributes.content);
 
 
                             card.addClass(cardAttributes.styling);
                             card.removeClass('hidden');
                             card.draggable();
-                            
-                            
+
+							card.on('mousedown',function(){cardMouseDown()});
+
 
                             // card.draggable();
 
@@ -54,17 +55,20 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery'],
                         }
                     );
                 }
-                
-                
-                
- /*                function editCard(cardId) {
-                    require(['text!templates/blankCard.html'],
-                        function(html) { 
-                            logger.log("in edit card");
-                        }
-                    //debugger;
-                    );
-                } */
+
+
+				function cardMouseDown () {
+					var card = event.target.parentNode;
+					var cardParentID = card.parentNode.id;
+					var cardGrandParentID = card.parentNode.parentNode.id;
+					if (cardParentID === "projectBoard") {
+						dispatcher.fire('mouseDownOnCardOnProjectBoard', card);
+					}
+					else if (cardGrandParentID === "palette") {
+						card.style.zIndex = 0x7FFFFFFF;
+					}
+				}
+				
 /*
                 function addCardToStack (cardAttributes) {
                     var csid = '#' + cardAttributes.purpose;
