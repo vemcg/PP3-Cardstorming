@@ -7,7 +7,7 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                 function createCard(cardAttributes) {
                     require(['text!templates/blankCard.html'],
                         function(html) {
-                            
+                        
                         /*
                           when click on a card stack, we know which card stack was clicked on
                           in card attribute, make position be the same as the card stack:  x, y, z is the maximum value
@@ -27,7 +27,6 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                             var card = $('#TBD');
                             $('#TBD').attr('id', cid);
                             card = $('#' + cid);
-                            //dispatcher.on('dblclick', editCard);
 
                             if ('#projectBoard' == cardAttributes.target) {
                                 card.css('top', '' + cardAttributes.y + 'em');
@@ -44,9 +43,7 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                             card.addClass(cardAttributes.styling);
                             card.removeClass('hidden');
                             card.draggable();
-
 							card.on('mousedown',function(){cardMouseDown()});
-
 
                             // card.draggable();
 
@@ -55,7 +52,6 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                         }
                     );
                 }
-
 
 				function cardMouseDown () {
 					var card = event.target.parentNode;
@@ -85,23 +81,14 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                     $('.card').draggable();
                 }
 */
-
-
                 function init() {
-                    //dispatcher.on('dblclick', editCard);
                     dispatcher.on('getNewCard', createCard);
-
                 }
 
                 init();
 
-                var okButton  = document.getElementById("okButton");
-                var editTitle = document.getElementById("editTitle");
-                okButton.onclick = function() {
-                    alert("title: " + editTitle.val());
-                }
                 // Public Interface
-                
+                // this.init = init;
             }   // End of Instance
             return CardView;
         } ()); // End of Class
@@ -110,5 +97,3 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
         return new CardView(); // Returns an instance (a singleton)
         // return CardView; // Returns a Constructor for multiple instances
     });
-    
- 

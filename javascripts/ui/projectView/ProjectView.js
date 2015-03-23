@@ -4,7 +4,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 
             function ProjectView () {
 
-/*                 function testEventDispatcher() {
+                function testEventDispatcher() {
                     var infoIn = {str : 'infoIn string'};
                     function t1 (info) {
                         logger.log('T1: info.str = ' + info.str);
@@ -19,7 +19,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     dispatcher.on('test', t1);
 
                     dispatcher.fire ('test', infoIn);
-                } */
+                }
 
                 var cardstock;
                 var projectView;
@@ -30,7 +30,6 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 var xoff = 0;
                 var yoff = 0;
                 var zidx = 0;
-
                 function addCard() {
                     require(['text!templates/blankCard.html'],
                         function(card) {
@@ -38,28 +37,23 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                             xoff = xoff + 3;
                             zidx = zidx + 1;
                             var cid = 'card' + zidx;
-
                             fontsize = 0.90 * fontsize;
                             board.css('font-size', fontsize + '%');
-
                             board.append(card);
                             $('#TBD').addClass('yellowCard');
                             $('#TBD').removeClass('blankCard');
                             $('#TBD').removeClass('hidden');
                             $('#TBD').attr('id', cid);
                             cid = '#' + cid;
-
                             // TODO: Put the card where it was dropped
                             board.css('top', yoff + 'px');
                             board.css('left', -xoff + 'px');
-
                             $(cid).css('top', '' + yoff + 'em');
                             $(cid).css('left', '' + xoff + 'em');
                             $(cid).css('z-index', zidx);
                         }
                     );
                 }
-
                 function addCardXXX() {       // do this differently on card drop
                     // TODO: Take the card from the event rather than creating it
                     var card = cardstock.html();
@@ -67,30 +61,24 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     xoff = xoff + 3;
                     zidx = zidx + 1;
                     var cid = 'card' + zidx;
-
                     fontsize = 0.90 * fontsize;
                     board.css('font-size', fontsize + '%');
-
                     board.append(card);
                     $('#TBD').attr('id', cid);
                     cid = '#' + cid;
-
                     // TODO: Put the card where it was dropped
                     board.css('top', yoff + 'px');
                     board.css('left', -xoff + 'px');
-
                     $(cid).css('top', '' + yoff + 'em');
                     $(cid).css('left', '' + xoff + 'em');
                     $(cid).css('z-index', zidx);
                 }
-
                 cardstock = $('#cardAsset');
 */
                 projectView = $('#projectView');
                 projectBoard = $('#projectBoard');
 
                 function dropCard ( event, ui ) {
-
 					var card = event.target.parentNode;
 					var cardStack = card.parentNode;
 					if (cardStack.parentNode.id === "palette") {
@@ -140,16 +128,14 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 						// Notify the Project Board.
 						dispatcher.fire('movedCardToProjectBoard', card);
 					}
-
                 }
-                
                        /*
                 this.droppable(
                     {drop: dropCard}
 					
                 );
                            */
-/*                 function runOldClickDemo() {
+                function runOldClickDemo() {
                     var cardAttributes = {
                         purpose : 'Why This Card',
                         styling : 'yellowCard',
@@ -176,21 +162,19 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                     }
 
                     projectView.on('click', dropDemoCard);
-                } */
+                }
 
                 function pause () {
 
                 }
                 function resume () {
-                    $('.card').on('dblclick', editCard);
+
                 }
                 function init() {
-
                     logger.log("Made it to ProjectView init()");
                     // testEventDispatcher();
                     //runOldClickDemo();
 					$('#projectView').droppable({drop: dropCard});
-
                 }
 
                 // Public Interface

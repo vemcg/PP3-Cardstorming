@@ -38,8 +38,6 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
                         }
                     );
                 }
-                
-
 
                 function init() {
                     dispatcher.on('getNewCardStack', createCardStack);
