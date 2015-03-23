@@ -90,36 +90,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 projectBoard = $('#projectBoard');
 
                 function dropCard ( event, ui ) {
-<<<<<<< HEAD
-                    var card = event.srcElement.parentElement;
-                    var cardStack = card.parentElement;
-                    if (cardStack.parentElement.id === "palette") {
-                        logger.log(card);
-                        card = $(card).detach();
-                        $("#projectBoard").append(card);
-                        card.draggable();
-                        //logger.log(card);
-                        card.removeClass("blankCard");
-                        //var cardID = card.id;
- 
-                        logger.log(card)
 
-                        
-                        var cardAttributes = {
-                            purpose: cardStack.purpose,
-                            styling:  cardStack.id
-                        };
-                        dispatcher.fire('addCardToCardStack', cardAttributes);
-                        
-                    };
-                    
-                }
-                
-
-                function editCard( event, ui ) {
-                    var card = event.srcElement.parentElement;
-                    logger.log(card.cardID);
-=======
 					var card = event.target.parentNode;
 					var cardStack = card.parentNode;
 					if (cardStack.parentNode.id === "palette") {
@@ -169,7 +140,7 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 						// Notify the Project Board.
 						dispatcher.fire('movedCardToProjectBoard', card);
 					}
->>>>>>> 4215a7b15caf2b9e72f84a769cd9b15a4242e35f
+
                 }
                 
                        /*
