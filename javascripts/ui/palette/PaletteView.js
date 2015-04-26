@@ -12,22 +12,22 @@ define(['cards/CardStackView', 'cards/CardView', 'core/EventDispatcher', 'jquery
                 function init() {
                     // Fake button push
                     var demoCardStackAttributes = {
-                        purpose : 'Yellow Bird!',
+                        purpose : 'Yellow Purpose!',
                         styling : 'yellowCard'
                     };
-                    dispatcher.fire('getNewCardStack', demoCardStackAttributes);
+                    dispatcher.fire('createCardStack', demoCardStackAttributes);
                     
                     demoCardStackAttributes = {
-                        purpose : 'I should be purple',
+                        purpose : 'Purple Purpose!',
                         styling : 'purpleCard'
                     };
-                    dispatcher.fire('getNewCardStack', demoCardStackAttributes);
+                    dispatcher.fire('createCardStack', demoCardStackAttributes);
                     
                     demoCardStackAttributes = {
-                        purpose : 'I should be green',
+                        purpose : 'Green Purpose!',
                         styling : 'greenCard'
                     };
-                    dispatcher.fire('getNewCardStack', demoCardStackAttributes);
+                    dispatcher.fire('createCardStack', demoCardStackAttributes);
                 }
 
                 // Public Interface

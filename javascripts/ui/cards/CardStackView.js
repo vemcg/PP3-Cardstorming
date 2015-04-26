@@ -4,6 +4,8 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
 
             function CardStackView () {
 
+                // cardStackAttributes are the color and the purpose
+                //  they come from ProjectView's passing of 
                 function createCardStack(cardStackAttributes) {
                     require(['text!templates/cardStack.html'],
                         function(html) {
@@ -14,19 +16,23 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
                             var stack = $('#palette .cardStack#TBD');
                             stack.attr('id', csid);
 
+                            // purpose is the category of the card.  
+                            //   each card stack has its own purpose 
+                            //     (the color parameter may also be used to visually distinguish card stacks)
                             $('.purpose', stack).html(cardStackAttributes.purpose);
                             
                             stack.addClass(csid);
                             stack.attr('id', csid);
 							
-                            // TODO: Put a card in it
-                            // TODO: Later, take the card from the event rather than directly
-                            dispatcher.fire('getNewCard', cardStackAttributes);
+                            // Put a card in it
+                            // the card comes from the event
+                            // createCard
+                            dispatcher.fire('createCard', cardStackAttributes);
                         }
                     );
                 }
 
-                function addCard(cardStackAttributes) {
+                function addCardToCardStack(cardStackAttributes) {
                     require(['text!templates/cardStack.html'],
                         function(html) {
                             var csid = cardStackAttributes.styling;
@@ -34,14 +40,47 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
 
                             // TODO: Put a card in it
                             // TODO: Later, take the card from the event rather than directly
-                            dispatcher.fire('getNewCard', cardStackAttributes);
+                            dispatcher.fire('createCard', cardStackAttributes);
                         }
                     );
                 }
+                
+                // IN DEVELOPMENT
+                //  gets all the classes from a card
+                //   used by replaceCard, for example, so we can isolate 
+                //   an attribute of the card and determine the style from it
+                //  --> move to CardView, as this pertains to a particular card, not 
+                //  to the stack of a card
+                //  author:  Vern
+                function extractStylingClass(classes) {
+                    for (var i = 0; i < classes.length; i++) {
+                        var style = classes[i];
+                        if (-1 < style.indexOf('Card')) {
+                            return (style);
+                        }
+                    }
+                    return ('NotFound');
+                }
+                
+                // IN DEVELOPMENT
+                //  --> move to CardView, as this pertains to a particular card, not 
+                //  to the stack of a card
+                //  calls extractStylingClass
+                //  unknown usefulness
+                //  author:  Vern
+                function replaceCard(cardId) {
+                    var card = $('#palette #' + cardId);
+                    card.removeClass('blankCard');
+                    var cardStackAttributes = {};
+                    cardStackAttributes.styling = extractStylingClass(card[0].classList);
+                    cardStackAttributes.target = '#' + cardStackAttributes.styling;
+                    dispatcher.fire('createCard', cardStackAttributes);
+                }
+
 
                 function init() {
-                    dispatcher.on('getNewCardStack', createCardStack);
-					dispatcher.on('addCardToCardStack', addCard);
+                    dispatcher.on('createCardStack', createCardStack);
+					dispatcher.on('addCardToCardStack', addCardToCardStack);
                 }
 
                 init();

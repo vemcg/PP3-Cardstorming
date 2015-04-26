@@ -3,42 +3,25 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
         var ProjectBoard = (function () { // Start of Constructor
 
             function ProjectBoard () {
-                function testEventDispatcher() {
-                    var infoIn = {str : 'infoIn string'};
-                    function t1 (info) {
-                        logger.log('T1: info.str = ' + info.str);
-                    }
-                    function t2(info) {
-                        logger.log('T2: info.str = ' + info.str);
-                    }
-                    logger.log('Hello raw Log from ProjectBoard');
-
-                    dispatcher.on('test', t1);
-                    dispatcher.on('test', t2);
-                    dispatcher.on('test', t1);
-
-                    dispatcher.fire ('test', infoIn);
-                }
 
 				var highestZIndex = 0;
 				
+                // case where card is not attached to the ProjectBoard yet
+                // (for future, we could leverage this for multi-select)
                 function addCardToProjectBoard (card) {
-					logger.log("Made it to ProjectBoard addCardToProjectBoard()");
-					setCardLocation(card[0], true);
+					setCardLocationOnProjectBoard(card[0], true);
                 }
 				
 				function movedCardOnProjectBoard  (cardRef) {
-					logger.log("Made it to ProjectBoard movedCardOnProjectBoard()");
-					setCardLocation(cardRef, false);
+					setCardLocationOnProjectBoard(cardRef, false);
 				}
 
 				function mouseDownOnCardOnProjectBoard (cardRef) {
-					logger.log("Made it to ProjectBoard mouseDownOnCardOnProjectBoard()");
 					if (cardRef.style.zIndex < highestZIndex)
 						cardRef.style.zIndex = ++highestZIndex;
 				}
 				
-				function setCardLocation (cardRef, dropped) {
+				function setCardLocationOnProjectBoard (cardRef, dropped) {
 					// First put card on top
 					if (dropped || (cardRef.style.zIndex < highestZIndex))
 						cardRef.style.zIndex = ++highestZIndex;
@@ -53,7 +36,6 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 
                 }
                 function init() {
-                    logger.log("Made it to ProjectBoard init()");
                     dispatcher.on('addCardToProjectBoard', addCardToProjectBoard);
 					dispatcher.on('movedCardOnProjectBoard', movedCardOnProjectBoard);
 					dispatcher.on('mouseDownOnCardOnProjectBoard', mouseDownOnCardOnProjectBoard);

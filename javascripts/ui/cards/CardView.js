@@ -3,10 +3,13 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
         var CardView = (function () {
 
             function CardView () {
+                
+                var projectBoard;
 
                 function createCard(cardAttributes) {
                     require(['text!templates/blankCard.html'],
                         function(html) {
+                        
                         
                         /*
                           when click on a card stack, we know which card stack was clicked on
@@ -27,7 +30,13 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                             var card = $('#TBD');
                             $('#TBD').attr('id', cid);
                             card = $('#' + cid);
+                            
+                            // if you have a card on the ProjectView, you can
+                            //   double click on it and edit the card
+                            dispatcher.on('dblclick', idAndEditCard);
 
+                        
+                            
                             if ('#projectBoard' == cardAttributes.target) {
                                 card.css('top', '' + cardAttributes.y + 'em');
                                 card.css('left', '' + cardAttributes.x + 'em');
@@ -65,24 +74,73 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
 					}
 				}
 				
-/*
-                function addCardToStack (cardAttributes) {
-                    var csid = '#' + cardAttributes.purpose;
-                    var card = $('#detachableAssets .cardAsset .blankCard').html();
-                    var cid = Card.getUniqueCardId();
-                    $("body").append(card);
-                    $('.blankCard.hidden').attr('id', cid);
-                    cid = '#' + cid;
-                    $(cid).attr('position adsolute');
-                    $(cid).attr('z-index', Card.maxZ);
-                    $(cid).attr('top', $(csid).attr('top'));
-                    $(cid).attr('left', $(csid).attr('left'));
-                    $(cid).removeClass('hidden');
-                    $('.card').draggable();
+                function zoomOut() {
+                    $( "#projectBoard" ).animate({
+                        "font-size": "2px"
+                    }, 500, function() {
+                        // Animation complete.
+                    });
                 }
-*/
+                function zoomIn() {
+                    $( "#projectBoard" ).animate({
+                        "font-size": "12px"
+                    }, 500, function() {
+                        // Animation complete.
+                    });
+                }
+                function zoomDemo() {
+                    setTimeout(zoomIn, 2000);
+                    zoomOut();
+                }
+
+                function editCard(cardId) {
+                    function editCardImpl(html) {
+                        function removeEditForm() {
+                            $('#editCardForm').detach();
+                        }
+                        function onOk() {
+                            debugger;
+                            // removeEditForm();
+                        }
+                        function onCancel() {
+                            debugger;
+                            removeEditForm();
+                            zoomDemo();
+                        }
+                        // Gather all the pieces
+                        var cardElement = $('#'+cardId)[0];
+                        var id = cardElement.id;
+                        var titleElement =  $('div.title', cardElement);
+                        var contentElement = $('div.content', cardElement);
+                        var titleText = titleElement[0].textContent;
+                        var contentText =  contentElement.val();
+                        // Present the edit form
+                        projectBoard.append(html);
+                        var form = $('#editCardForm');
+                        form.css('top', cardElement.offsetTop);
+                        form.css('left', cardElement.offsetLeft);
+                        form.css('z-index', 1000000);
+                        $("#editCardForm #editTitle").val(titleText);
+                        $("#editCardForm #editContent").val(contentText);
+                        $('#editCardForm #okButton').on('click', onOk);
+                        $('#editCardForm #cancelButton').on('click', onCancel);
+                        debugger;
+                    }
+                    require(['text!templates/editCardForm.html'], editCardImpl);
+                }
+                
+                function idAndEditCard(event) {
+                    var cardId = event.target.firstChild.parentElement.offsetParent.id;
+                    editCard(cardId);
+                }
+
+                
+                
                 function init() {
-                    dispatcher.on('getNewCard', createCard);
+                    dispatcher.on('createCard', createCard);
+                    dispatcher.on('editCard', editCard);
+                    // Just for purposes of demonstrating zoom
+                    dispatcher.on('replaceCard', zoomDemo);
                 }
 
                 init();

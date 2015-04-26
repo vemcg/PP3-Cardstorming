@@ -2,96 +2,40 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
     function (dispatcher, logger) { "use strict"
         var ProjectView = (function () { // Start of Constructor
 
+            // the Project View is, conceptually speaking, the "frame"
+            //    through which the user views the Project Board
+            
+            // one of the methods here is "dropCard", because you drop the card 
+            //    through the ProjectView onto the Project Board
             function ProjectView () {
-
-                function testEventDispatcher() {
-                    var infoIn = {str : 'infoIn string'};
-                    function t1 (info) {
-                        logger.log('T1: info.str = ' + info.str);
-                    }
-                    function t2(info) {
-                        logger.log('T2: info.str = ' + info.str);
-                    }
-                    logger.log('Hello raw Log from ProjectView');
-
-                    dispatcher.on('test', t1);
-                    dispatcher.on('test', t2);
-                    dispatcher.on('test', t1);
-
-                    dispatcher.fire ('test', infoIn);
-                }
 
                 var cardstock;
                 var projectView;
                 var projectBoard;
 
                 var fontsize = 100;
-/*
-                var xoff = 0;
-                var yoff = 0;
-                var zidx = 0;
 
-                function addCard() {
-                    require(['text!templates/blankCard.html'],
-                        function(card) {
-                            yoff = yoff + 2;
-                            xoff = xoff + 3;
-                            zidx = zidx + 1;
-                            var cid = 'card' + zidx;
-
-                            fontsize = 0.90 * fontsize;
-                            board.css('font-size', fontsize + '%');
-
-                            board.append(card);
-                            $('#TBD').addClass('yellowCard');
-                            $('#TBD').removeClass('blankCard');
-                            $('#TBD').removeClass('hidden');
-                            $('#TBD').attr('id', cid);
-                            cid = '#' + cid;
-
-                            // TODO: Put the card where it was dropped
-                            board.css('top', yoff + 'px');
-                            board.css('left', -xoff + 'px');
-
-                            $(cid).css('top', '' + yoff + 'em');
-                            $(cid).css('left', '' + xoff + 'em');
-                            $(cid).css('z-index', zidx);
-                        }
-                    );
-                }
-
-                function addCardXXX() {       // do this differently on card drop
-                    // TODO: Take the card from the event rather than creating it
-                    var card = cardstock.html();
-                    yoff = yoff + 2;
-                    xoff = xoff + 3;
-                    zidx = zidx + 1;
-                    var cid = 'card' + zidx;
-
-                    fontsize = 0.90 * fontsize;
-                    board.css('font-size', fontsize + '%');
-
-                    board.append(card);
-                    $('#TBD').attr('id', cid);
-                    cid = '#' + cid;
-
-                    // TODO: Put the card where it was dropped
-                    board.css('top', yoff + 'px');
-                    board.css('left', -xoff + 'px');
-
-                    $(cid).css('top', '' + yoff + 'em');
-                    $(cid).css('left', '' + xoff + 'em');
-                    $(cid).css('z-index', zidx);
-                }
-
-                cardstock = $('#cardAsset');
-*/
                 projectView = $('#projectView');
                 projectBoard = $('#projectBoard');
-
+ 
+ 
+                // this is what happens after a user has been dragging a card
+                //    and then lets go of the mouse (drop)
+                //  the card's parent will either be the cardStack
+                //    or ProjectBoard, depending on where the card had been
+                //    when the user "picked it up"
+                //  code says "cardStack" because new cards come from the cardStack
                 function dropCard ( event, ui ) {
 					var card = event.target.parentNode;
-					var cardStack = card.parentNode;
+					var cardStack = card.parentNode;  
+                    
+                    // if the card is being dropped from the palette (the card stacks),
+                    //    set the variables for a card
+                    //    palette should be the grandparent of the card
+                    //  if the card stack's parent is the palette, that means that 
+                    //    the card is coming from a card stack -- not from the project board
+                    //    so a new card has to be created based on the stack from which 
+                    //    it was "picked"
 					if (cardStack.parentNode.id === "palette") {
 						// A new card from the Card Stack has been dropped in the ProjectView
 						// Get the location of the card and the offsets for the ProjectView
@@ -121,14 +65,19 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 						card = $ (card).detach();
 						card.appendTo ($("#projectBoard"));
 						//   Adjust the coordinates of the Card to be relative to the ProjectBoard.
-						card[0].style.left = newLeft;
+						//   this is the set of coordinates relative to the Project View
+                        card[0].style.left = newLeft;
 						card[0].style.top = newTop;
 						//   Make the card draggable, no longer a blank card, and notify Project Board.
 						card.draggable();
 						card.removeClass ("blankCard");
+                        
+                        // the addCardToProjectBoard function sets coordinates relative to the 
+                        //   ProjectBoard
 						dispatcher.fire('addCardToProjectBoard', card);
 						
-						// Add a new blank card to the origin Card Stack
+						// Add a new blank card to the origin Card Stack; i.e., 
+                        // the card gets its purpose and styling from the card stack
 						var cardAttributes = {
 							purpose : cardStack.purpose,
 							styling : cardStack.id
@@ -137,43 +86,11 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 					} else {
 						// A card has been moved.
 						// Notify the Project Board.
-						dispatcher.fire('movedCardToProjectBoard', card);
+						dispatcher.fire('movedCardOnProjectBoard', card);
 					}
                 }
-                       /*
-                this.droppable(
-                    {drop: dropCard}
-					
-                );
-                           */
-                function runOldClickDemo() {
-                    var cardAttributes = {
-                        purpose : 'Why This Card',
-                        styling : 'yellowCard',
-                        target  : '#projectBoard',
-                        x       :  1,
-                        y       :  1,
-                        z       :  1,
-                        creator : 'XX',
-                        title   : 'Card Title',
-                        content : 'Some card contents from a form in the future.'
-                    };
+ 
 
-                    function dropDemoCard() {
-                        cardAttributes.x = cardAttributes.x + 2;
-                        cardAttributes.y = cardAttributes.y + 3;
-                        cardAttributes.z = cardAttributes.z + 1;
-
-                        dispatcher.fire('getNewCard', cardAttributes);
-
-                        fontsize = 0.90 * fontsize;
-                        projectBoard.css('font-size', fontsize + '%');
-                        projectBoard.css('top', cardAttributes.y + 'px');
-                        projectBoard.css('left', -cardAttributes.x + 'px');
-                    }
-
-                    projectView.on('click', dropDemoCard);
-                }
 
                 function pause () {
 
@@ -182,9 +99,6 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
 
                 }
                 function init() {
-                    logger.log("Made it to ProjectView init()");
-                    // testEventDispatcher();
-                    //runOldClickDemo();
 					$('#projectView').droppable({drop: dropCard});
                 }
 
