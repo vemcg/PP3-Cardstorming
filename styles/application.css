@@ -16,13 +16,18 @@
 html * {
     font-size: 100%;
 }
+body {
+    margin: 0px;
+}
 #banner {
-    height: 100px;
+    height: 50px;
     width: 100%;
+    x-index: 0;
     background-color: #ddddff;
 }
 #projectView {
     position: relative;
+    z-index: 0;
     height: 800px;
     width: 75%;
     float: left;
@@ -30,6 +35,7 @@ html * {
 }
 #projectBoard {
     position: absolute;
+    z-index: -1;
     height: 800px;
     width: 75%;
     float: left;
@@ -38,6 +44,7 @@ html * {
 #palette {
     height: 800px;
     width: 25%;
+    z-index: 0;
     float: right;
     background-color: #dddddd;
 }
@@ -96,7 +103,13 @@ html * {
 .button {
     width:  5em;
     height: 2.1em;
-    background-color: #2D7296;
+    padding: 0.5em;
+    border: 0.2em blue;
+    border-style: inset;
+    -moz-border-radius: 0.75em;
+    border-radius: 0.75em;
+    margin: 0.5em;
+    background-color: lightblue;
     text-align: center;
     color: #F2F6F7;
     font-family: sans-serif;
