@@ -4,7 +4,7 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
 
             function CardView () {
                 
-                var projectBoard;
+                var projectBoard = $('#projectBoard');
 
                 function createCard(cardAttributes) {
                     require(['text!templates/blankCard.html'],
@@ -93,6 +93,7 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                     zoomOut();
                 }
 
+				
                 function editCard(cardId) {
                     function editCardImpl(html) {
                         function removeEditForm() {
@@ -101,13 +102,14 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                         function onOk() {
                             debugger;
                             // removeEditForm();
-                        }
+						    dialog.dialog( "close" );
+						}
                         function onCancel() {
                             debugger;
                             removeEditForm();
                             zoomDemo();
-                        }
-                        // Gather all the pieces
+						    dialog.dialog( "close" );
+					    }
                         var cardElement = $('#'+cardId)[0];
                         var id = cardElement.id;
                         var titleElement =  $('div.title', cardElement);
@@ -115,7 +117,34 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                         var titleText = titleElement[0].textContent;
                         var contentText =  contentElement.val();
                         // Present the edit form
-                        projectBoard.append(html);
+						
+						var dialog = $( html ).dialog({
+						  autoOpen: false,
+						  height: 300,
+						  width: 350,
+						  modal: true,
+						  buttons: {
+							OK: onOk,
+							Cancel: onCancel
+						  },
+						  close: function() {
+							form[ 0 ].reset();
+							allFields.removeClass( "ui-state-error" );
+						  }
+						});
+					 
+						form = dialog.find( "form" ).on( "submit", function( event ) {
+						  event.preventDefault();
+						  addUser();
+						});
+/*					 
+						$( "okButton" ).button().on( "click", function() {
+						  dialog.dialog( "open" );
+						});
+*/
+					    //projectBoard.append(html);
+						projectBoard.append(dialog);
+						dialog.dialog( "open" );
                         var form = $('#editCardForm');
                         form.css('top', cardElement.offsetTop);
                         form.css('left', cardElement.offsetLeft);

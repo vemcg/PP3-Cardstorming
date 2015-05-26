@@ -77,8 +77,8 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                         // the addCardToProjectBoard function sets coordinates relative to the
                         //   ProjectBoard
                         dispatcher.fire('addCardToProjectBoard', card);
-                        // TODO dispatcher.fire('editCard', card[0].id); // cardId);
-                        // TODO card.on('dblclick', onDblClick);
+                        dispatcher.fire('editCard', card[0].id); // cardId);
+                        card.on('dblclick', onDblClick);
 
                         // Add a new blank card to the origin Card Stack; i.e.,
                         // the card gets its purpose and styling from the card stack
