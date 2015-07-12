@@ -100,14 +100,14 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                             $('#editCardForm').detach();
                         }
                         function onOk() {
-                            debugger;
+                            //debugger;
                             // removeEditForm();
 						    dialog.dialog( "close" );
 						}
                         function onCancel() {
-                            debugger;
+                            //debugger;
                             removeEditForm();
-                            zoomDemo();
+                            //zoomDemo();
 						    dialog.dialog( "close" );
 					    }
                         var cardElement = $('#'+cardId)[0];
@@ -119,41 +119,46 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                         // Present the edit form
 						
 						var dialog = $( html ).dialog({
-						  autoOpen: false,
-						  height: 300,
-						  width: 350,
+						  autoOpen: true,
+                          
+						  //height: 300,
+						  //width: 350,
 						  modal: true,
-						  buttons: {
-							OK: onOk,
-							Cancel: onCancel
-						  },
-						  close: function() {
+						  
+                          // TODO: Is this needed?  How do we get rid of the underlined "close" in the dialog
+						  /*close: function() {
 							form[ 0 ].reset();
 							allFields.removeClass( "ui-state-error" );
-						  }
+						  } */
 						});
 					 
-						form = dialog.find( "form" ).on( "submit", function( event ) {
+						var form = dialog.find( "form" ).on( "submit", function( event ) {
 						  event.preventDefault();
 						  addUser();
 						});
-/*					 
+
+                        // from here to *** may be unnecessary
+                        /*					 
+                         
 						$( "okButton" ).button().on( "click", function() {
 						  dialog.dialog( "open" );
 						});
 */
 					    //projectBoard.append(html);
-						projectBoard.append(dialog);
-						dialog.dialog( "open" );
-                        var form = $('#editCardForm');
-                        form.css('top', cardElement.offsetTop);
-                        form.css('left', cardElement.offsetLeft);
-                        form.css('z-index', 1000000);
+						//projectBoard.append(dialog);
+						//dialog.dialog( "open" );
+                        //form = $('#editCardForm');
+                        //form.css('top', cardElement.offsetTop);
+                        //form.css('left', cardElement.offsetLeft);
+                        //form.css('z-index', 1000000);
+                        
+                        //***  end of possibly unnecessary
+                        
                         $("#editCardForm #editTitle").val(titleText);
                         $("#editCardForm #editContent").val(contentText);
                         $('#editCardForm #okButton').on('click', onOk);
                         $('#editCardForm #cancelButton').on('click', onCancel);
-                        debugger;
+                        //debugger;
                     }
                     require(['text!templates/editCardForm.html'], editCardImpl);
                 }
