@@ -32,14 +32,17 @@ define(['core/EventDispatcher', 'core/Log', 'cards/CardView', 'jquery'],
                 //    when the user "picked it up"
                 //  code says "cardStack" because new cards come from the cardStack
                 function dropCard ( event, ui ) {
-                    // Decide which is the best method for selecting the card.
-                    // var cardId = event.target.firstChild.parentElement.offsetParent.id;
-                    // var card = $('.card.blankCard', event.srcElement);
-                    // var card = $('#palette #' + cardId);
-
-                    var card = event.target.parentNode;
-                    var cardStack = card.parentNode;
-                    if (cardStack.parentNode.id === "palette") {
+                    // TODO: Find a reliable way of finding the card element.
+					// Background: A problem has appeared in which the event.target sometimes points
+					// to the card and sometimes the card is the parentNode of the target.
+					// FIND OUT WHY THE event.target IS UNRELIABLE.
+                    var card = event.target;
+					if (!card.classList.contains("card") && card.parentNode.classList.contains("card"))
+					{
+						card = card.parentNode;
+					}
+					var cardStack = card.parentNode;
+                    if (card.classList.contains('blankCard')) {
                         // A new card from the Card Stack has been dropped in the ProjectView
                         // Get the location of the card and the offsets for the ProjectView
                         // Note: No index needed for card reference since get reference from event.
