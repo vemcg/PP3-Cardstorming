@@ -75,6 +75,7 @@ define(['cards/CardView', 'core/EventDispatcher', 'core/UniqueId', 'core/Log', '
                     cardStackAttributes.styling = extractStylingClass(card[0].classList);
                     cardStackAttributes.target = '#' + cardStackAttributes.styling;
                     dispatcher.fire('createCard', cardStackAttributes);
+					debugger;  // TODO: On 10/1/15 remove this code if have never hit this
                 }
 
 

@@ -42,6 +42,7 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                                 card.css('left', '' + cardAttributes.x + 'em');
                                 card.css('z-index', cardAttributes.z);
                                 card.removeClass('blankCard');
+								debugger;  // TODO: On 10/1/15 remove this code if have never hit this
                             }
 
                             // $('.creator', cid).html(cardAttributes.creator);
@@ -95,6 +96,8 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
 
 				
                 function editCard(cardId) {
+					var editedCard = cardId;
+				
                     function editCardImpl(html) {
                         function removeEditForm() {
                             $('#editCardForm').detach();
@@ -102,6 +105,11 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                         function onOk() {
                             //debugger;
                             // removeEditForm();
+							// TODO: Make this work for editing cards already on project board.  Currently only
+							// works when initially drop card from the card stack.
+							var newTitle = $("#editCardForm #editTitle").val();
+							var newText = $("#editCardForm #editContent").val();
+							updateCard(newTitle, newText);
 						    dialog.dialog( "close" );
 						}
                         function onCancel() {
@@ -115,7 +123,7 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                         var titleElement =  $('div.title', cardElement);
                         var contentElement = $('div.content', cardElement);
                         var titleText = titleElement[0].textContent;
-                        var contentText =  contentElement.val();
+                        var contentText =  contentElement[0].textContent;
                         // Present the edit form
 						
 						var dialog = $( html ).dialog({
@@ -160,6 +168,15 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                         $('#editCardForm #cancelButton').on('click', onCancel);
                         //debugger;
                     }
+					
+					function updateCard(newTitle, newContent) {
+                        var cardElement = $('#'+editedCard)[0];
+                        var titleElement =  $('div.title', cardElement);
+                        var contentElement = $('div.content', cardElement);
+						titleElement[0].textContent = newTitle;
+						contentElement[0].textContent = newContent;
+					}
+				
                     require(['text!templates/editCardForm.html'], editCardImpl);
                 }
                 
