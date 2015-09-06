@@ -95,6 +95,10 @@ div.ui-widget-overlay{
     display:none;
 }
 
+.ui-widget-overlay{
+    opacity: 50%;
+}
+
 div#editCardForm {
     border: 2px solid green;
     
