@@ -125,10 +125,18 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                             removeEditForm();
                             var cardInfo = {};
                             cardInfo.id = id;
-                            dispatcher.fire('deleteCard', cardInfo);
                             //zoomDemo();
                             dialog.dialog( "close" );
                         }
+                        
+                        function onDelete() {
+                            removeEditForm();
+                            var cardInfo = {};
+                            cardInfo.id = id;
+                            dialog.dialog( "close" );
+                            dispatcher.fire('deleteCard', cardInfo);
+                        }
+                        
                         var cardElement = $('#'+cardId)[0];
                         var id = cardElement.id;
                         var titleElement =  $('div.title', cardElement);
@@ -156,38 +164,15 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                           addUser();
                         });
 
-                        // from here to *** may be unnecessary
-                        /*
-
-                        $( "okButton" ).button().on( "click", function() {
-                          dialog.dialog( "open" );
-                        });
-*/
-                        //projectBoard.append(html);
-                        //projectBoard.append(dialog);
-                        //dialog.dialog( "open" );
-                        //form = $('#editCardForm');
-                        //form.css('top', cardElement.offsetTop);
-                        //form.css('left', cardElement.offsetLeft);
-                        //form.css('z-index', 1000000);
-
-                        //***  end of possibly unnecessary
-
                         $("#editCardForm #editTitle").focus();
                         $("#editCardForm #editTitle").val(titleText);
                         $("#editCardForm #editContent").val(contentText);
                         $('#editCardForm #okButton').on('click', onOk);
                         $('#editCardForm #cancelButton').on('click', onCancel);
+                        $('#editCardForm #deleteButton').on('click', onDelete);
                         //debugger;
                     }
 
-                    function updateCard(newTitle, newContent) {
-                        var cardElement = $('#'+editedCard)[0];
-                        var titleElement =  $('div.title', cardElement);
-                        var contentElement = $('div.content', cardElement);
-                        titleElement[0].textContent = newTitle;
-                        contentElement[0].textContent = newContent;
-                    }
 
                     require(['text!templates/editCardForm.html'], editCardImpl);
                 }
@@ -197,61 +182,22 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                     editCard(cardId);
                 }
 
-                function updateCardXXX(newTitle, newContent) {
-                    var cardElement = $('#'+edittedCard)[0];
-                    var id = cardElement.id;
-                    var titleElement =  $('div.title', cardElement);
-                    var contentElement = $('div.content', cardElement);
-                    var titleText = titleElement[0].textContent;
-                    var contentText =  contentElement[0].val();
-                // $('div.content',$('#'+edittedCard[0])).val(newContent);
-                    titleElement[0].textContent = newTitle;
-                    contentElement[0].textContent = newContent;
-                    // contentElement.val(newContent);
-                }
-
+ 
                 function updateCard(cardInfo) {
                     var titleElement;
                     var contentElement;
                     var cardElement = $('#'+cardInfo.id)[0];
                     var id = cardElement.id;
-                    if ('' === cardInfo.title) {
-                        // If there is no title (which would be the case if the
-                        // initial edit was canceled) delete the card.
-                        cardElement.remove();
-                    } else {
-                        titleElement =  $('div.title', cardElement);
-                        contentElement = $('div.content', cardElement);
-                        titleElement[0].textContent = cardInfo.title;
-                        contentElement[0].textContent = cardInfo.content;
-                    }
-
-
-// my broken
-                    // var cardElement = $('#'+cardInfo.id)[0];
-                    // $('.title', cardElement).val(cardInfo.title);
-                    // $('.content', cardElement).val(cardInfo.content);
+                    titleElement =  $('div.title', cardElement);
+                    contentElement = $('div.content', cardElement);
+                    titleElement[0].textContent = cardInfo.title;
+                    contentElement[0].textContent = cardInfo.content;
                 }
 
                 function deleteCard(cardInfo) {
                     var titleElement;
                     var contentElement;
                     $('#'+cardInfo.id).remove();
-                    /*
-                    var cardElement = $('#'+cardInfo.id)[0];
-                    cardElement.remove();
-                    var id = cardElement.id;
-                    if ('' === cardInfo.title) {
-                        // If there is no title (which would be the case if the
-                        // initial edit was canceled) delete the card.
-                        cardElement.remove();
-                    } else {
-                        titleElement =  $('div.title', cardElement);
-                        contentElement = $('div.content', cardElement);
-                        titleElement[0].textContent = cardInfo.title;
-                        contentElement[0].textContent = cardInfo.content;
-                    }
-                    */
                 }
 
                 function init() {
