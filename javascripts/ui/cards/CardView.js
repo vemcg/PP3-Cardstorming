@@ -56,10 +56,6 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                             card.draggable();
                             card.on('mousedown',function(){cardMouseDown()});
 
-                            // card.draggable();
-
-                            // cardAttributes.cid = cid;
-                            // dispatcher.fire('cardAdded'); needed
                         }
                     );
                 }
@@ -95,7 +91,9 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                     zoomOut();
                 }
 
-
+                /*  reason we have both an edit card and an editCardImpl function
+                    inside it:  we need the require
+                */
                 function editCard(cardId) {
                     var editedCard = cardId;
 
@@ -116,8 +114,6 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                             cardInfo.content = x;
                             removeEditForm();
                             dispatcher.fire('updateCard', cardInfo);
-                            //debugger;
-                            // removeEditForm();
                             dialog.dialog( "close" );
                         }
                         function onCancel() {
@@ -164,6 +160,7 @@ define(['core/EventDispatcher', 'core/UniqueId', 'core/Log', 'jquery', 'jqueryUI
                           addUser();
                         });
 
+                        $("#editCardForm").addClass(cardElement.classList[1]);
                         $("#editCardForm #editTitle").focus();
                         $("#editCardForm #editTitle").val(titleText);
                         $("#editCardForm #editContent").val(contentText);

@@ -80,14 +80,19 @@ body {
     opacity: 0.1;
 }
 
-.ui-widget-content{
-    
+.ui-widget-content{ 
     height:  5em;
-    width:  5em;
+    width:  15em;
 }
 
 div.ui-widget-overlay{
     width 50%;
+}
+
+
+/*  this gets rid of the titlebar in the jquery_ui dialog */
+.ui-dialog-titlebar {
+    display:none;
 }
 
 div#editCardForm {
@@ -95,8 +100,8 @@ div#editCardForm {
     
 }
 
-div#editCardFormForm{
-    padding:0; border:0; margin-top:25px;
+#editCardFormForm{
+    padding:1em; border:0; margin-top:5px;
 }
 
 .cardStack {
@@ -106,18 +111,20 @@ div#editCardFormForm{
     border: black 3px solid;
 }
 .title {
-    width: 30%;
     font-weight: bold;
 	text-align: left;
 }
 .content {
-    width: 10em;
     height: 5em;
 }
 
 .label {
     font-style: bold;
     font-family: sans-serif;
+}
+
+.buttonRow {
+    float: right;
 }
 
 .button {
@@ -135,7 +142,6 @@ div#editCardFormForm{
     font-family: sans-serif;
     font-size: 75%;
     font-style: bold;
-    position: relative;
     bottom: 2.5em;
     right: .2em;
     border-radius: 50px;
