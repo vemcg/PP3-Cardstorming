@@ -117,9 +117,15 @@ div#editCardForm {
 .title {
     font-weight: bold;
 	text-align: left;
+	margin: 0px;
+	padding: 0px;
+	width: 95%;
 }
 .content {
     height: 5em;
+	margin: 0px;
+	padding: 0px;
+	width: 95%;
 }
 
 .label {
